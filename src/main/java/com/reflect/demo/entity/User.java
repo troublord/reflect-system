@@ -1,6 +1,8 @@
 package com.reflect.demo.entity;
 
-import java.sql.Timestamp;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,43 +16,53 @@ import jakarta.persistence.Table;
 public class User {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "id")
-	private int id;
-	@Column(name = "username",nullable = false)
-	private String userName;
-	@Column(name = "email")
-	private String email;
-	@Column(name = "password", nullable = false)
-	private String password;
-	@Column(name = "create_time", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-	private Timestamp createTime;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
+    private String password;
+
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDateTime updatedAt;
 	
 	public User(){
 		
 	}
 
-	public User(String userName, String email, String password, Timestamp createTime) {
-		this.userName = userName;
+	public User(Long id, String name, String email, String password, LocalDate createdAt, LocalDateTime updatedAt) {
+		this.id = id;
+		this.name = name;
 		this.email = email;
 		this.password = password;
-		this.createTime = createTime;
+		this.createdAt = createdAt;
+		this.updatedAt = updatedAt;
 	}
 
-	public int getId() {
+
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
-	public String getUserName() {
-		return userName;
+	public String getName() {
+		return name;
 	}
 
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getEmail() {
@@ -69,18 +81,21 @@ public class User {
 		this.password = password;
 	}
 
-	public Timestamp getCreateTime() {
-		return createTime;
+	public LocalDate getCreatedAt() {
+		return createdAt;
 	}
 
-	public void setCreateTime(Timestamp createTime) {
-		this.createTime = createTime;
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
 	}
 
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", userName=" + userName + ", email=" + email + ", password=" + password
-				+ ", createTime=" + createTime + "]";
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
 	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+	
 	
 }

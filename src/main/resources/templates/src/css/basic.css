@@ -1,0 +1,53 @@
+.main-color {
+    background-color: #202020;
+
+}
+
+.text-align-left{
+    text-align: left;
+}
+
+.text-align-right{
+    text-align: right;
+}
+
+.border_top{
+    border-top: 2px solid ;
+    border-color:#9E9E9E;
+}
+
+#content_header {
+    /* padding-left: ; */
+    padding-top : 16px;
+}
+
+#content_body{
+    padding-top : 40px;
+    padding-left: 16px;
+}
+
+#body_top_right{
+    padding-right: 130px;
+    
+}
+
+#table-search{
+    width: 384px;
+    margin-right: 32px;
+}
+
+#add-button{
+    color: rgb(12, 157, 7);
+}
+
+#add-button:hover{
+    color:rgb(9, 99, 6);
+}
+
+#body_table {
+    margin:16px;
+}
+
+#content_table{
+    margin-top: 16px;
+}

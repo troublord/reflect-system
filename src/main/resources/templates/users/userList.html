@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+
+	<title>reflect userList</title>
+</head>
+
+<body>
+
+<div class="container">
+
+	<h3>reflect userList</h3>
+	<hr>
+	
+	<a th:href = "@{/user/showFormForAdd}"
+		class = "btn btn-primary btn-sm mb-3">
+		add user	
+	</a>
+	<table class="table table-bordered table-striped">
+		<thead class="thead-dark">
+			<tr>
+				<th>username</th>
+				<th>email</th>
+				<th>password</th>
+				<th></th>
+			</tr>
+		</thead>
+		
+		<tbody>
+			<tr th:each="user : ${users}">
+			
+				<td th:text="${user.name}" />	
+				<td th:text="${user.email}" />	
+				<td th:text="${user.password}"  />	
+				<!-- Add update button/link -->
+				<td>
+					<a th:href="@{/user/showFormForUpdate(userId=${user.id})}"
+					   class="btn btn-info btn-sm">
+						Update
+					</a>
+					<a th:href="@{/user/deleteUser(userId=${user.id})}"
+					   class="btn btn-info btn-sm">
+						Delete
+					</a>
+				</td>
+			</tr>
+		</tbody>		
+	</table>
+	
+</div>
+	
+</body>
+</html>
+
+
+
