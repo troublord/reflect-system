@@ -9,9 +9,9 @@ public interface ActivityService {
 
     List<Activity> getAllActivities();
 
-    void saveActivity(Activity activity);
+    Activity saveActivity(Activity activity);
 
-    void updateActivity(Activity activity);
+    Activity updateActivity(Activity activity);
 
     void deleteActivityById(Long activityId);
     

@@ -24,7 +24,7 @@ public class ActivityDaoImpl implements ActivityDao {
 	}
 	@Override
 	public List<Activity> findAll() {
-		TypedQuery<Activity> query = entityManager.createQuery("SELECT a FROM Activity a", Activity.class);
+		TypedQuery<Activity> query = entityManager.createQuery("SELECT a FROM Activity a ORDER BY a.status , a.createdAt ", Activity.class);
 	    return query.getResultList();
 	}
 
