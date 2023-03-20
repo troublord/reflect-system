@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,12 +38,31 @@ public class UserController {
 		return "users/userList";
 	}
 	
-	@GetMapping("/showFormForAdd")
-	public String showFormForAdd(Model model) {
+	@GetMapping("/registration")
+	public String showRegistrationForm(Model model) {
 		User theUser = new User();
 		model.addAttribute("user" , theUser);
-		return "users/userForm";
+		return "users/registration";
 	}
+	@PostMapping("/registration/saving")
+	public String registration(@ModelAttribute("user")@Validated User user,BindingResult bindingResult,Model model) throws Exception {
+		  if(bindingResult.hasErrors()){
+	            model.addAttribute("user", user);
+	            return "users/registration";
+	        }
+	        try {
+	            userService.register(user);
+	        }catch (Exception e){
+	            bindingResult.rejectValue("email", "user.email","An account already exists for this email.");
+	            model.addAttribute("user", user);
+	            return "users/registration";
+	        }
+        return "redirect:/user/list";
+	}
+	
+	
+	
+	
 	
 	@GetMapping("/showFormForUpdate")
 	public String showFormForUpdate(@RequestParam("userId") int id, Model model) throws Exception {
@@ -68,6 +89,7 @@ public class UserController {
 		return "redirect:/user/list";
 		
 	}
+	
 	
 	
 	

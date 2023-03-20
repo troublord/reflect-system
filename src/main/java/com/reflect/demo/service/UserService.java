@@ -2,8 +2,6 @@ package com.reflect.demo.service;
 
 import java.util.List;
 
-
-
 import com.reflect.demo.entity.User;
 
 public interface UserService {
@@ -17,4 +15,8 @@ public interface UserService {
 	public void deleteById(int id);
 	
 	public void update(User user);
+	
+	public void register(User user) throws Exception;
+	
+	public boolean checkIfUserExist(String email);
 }

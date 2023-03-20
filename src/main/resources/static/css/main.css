@@ -75,7 +75,10 @@
 	background-color: #003700;
 }
 
-
+.registration-button{
+	background-color: rgb(28 25 23) !important;
+	float: right;
+}
 
 
 

@@ -1,24 +1,25 @@
 package com.reflect.demo.dao;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Repository;
 
 import com.reflect.demo.entity.User;
 
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
 
 @Repository
 public class UserDAOJpaImpl implements UserDao {
-
+	
+	@PersistenceContext
 	private EntityManager entityManager;
 	
-	@Autowired
-	public UserDAOJpaImpl(EntityManager injectedEntityManager) {
-		entityManager = injectedEntityManager;
-	}
 	
 	@Override
 	public List<User> findAll() {
@@ -35,9 +36,9 @@ public class UserDAOJpaImpl implements UserDao {
 	}
 
 	@Override
-	public void save(User newUser) {
-		User user = entityManager.merge(newUser);
-		newUser.setId(user.getId());
+	public User save(User newUser) {
+		entityManager.persist(newUser);
+		return newUser;
 	}
 
 	@Override
@@ -51,7 +52,21 @@ public class UserDAOJpaImpl implements UserDao {
 	@Override
 	public void update(User user) {
 		// TODO Auto-generated method stub
-
+		
 	}
+
+	@Override
+	public User findByEmail(String email) {
+		Query query = entityManager.createQuery(" FROM User WHERE email = :email");
+		query.setParameter("email", email);
+		List<User> users = query.getResultList();
+		if (!users.isEmpty()) {
+			return users.get(0);
+		} 
+		
+		return null;
+	}
+
+	
 
 }

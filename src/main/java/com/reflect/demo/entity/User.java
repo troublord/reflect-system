@@ -11,7 +11,11 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "user")
@@ -25,23 +29,26 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "email")
+    @NotBlank(message = "Email is required")
+    @Email(message = "Invalid email format")
+    @Column(name = "email",nullable = false, unique = true)
     private String email;
 
-    @Column(name = "password")
+    @NotBlank(message = " password is required")
+    @Column(name = "password",nullable = false)
     private String password;
 
     @Column(name = "created_at")
     private LocalDate createdAt;
 
     @Column(name = "updated_at")
-    private LocalDateTime updatedAt;
+    private LocalDate updatedAt;
 	
 	public User(){
 		
 	}
 
-	public User(Long id, String name, String email, String password, LocalDate createdAt, LocalDateTime updatedAt) {
+	public User(Long id, String name, String email, String password, LocalDate createdAt, LocalDate updatedAt) {
 		this.id = id;
 		this.name = name;
 		this.email = email;
@@ -92,13 +99,26 @@ public class User {
 		this.createdAt = createdAt;
 	}
 
-	public LocalDateTime getUpdatedAt() {
+	public LocalDate getUpdatedAt() {
 		return updatedAt;
 	}
 
-	public void setUpdatedAt(LocalDateTime updatedAt) {
+	public void setUpdatedAt(LocalDate updatedAt) {
 		this.updatedAt = updatedAt;
 	}
 	
-	
+	@PrePersist
+	 public void prePersist() {
+	    LocalDate now = LocalDate.now();
+	    this.createdAt = now;
+	    this.updatedAt = now;
+	    if(this.name == null) {
+	    	this.name = "user";
+	    } 
+	}
+
+	@PreUpdate
+	public void preUpdate() {
+	    this.updatedAt = LocalDate.now();
+	}
 }

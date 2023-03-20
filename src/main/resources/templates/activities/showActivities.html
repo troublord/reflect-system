@@ -1,5 +1,8 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" 
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+ layout:decorate="~{../static/sidebar.html}"
+>
 
 <head>
   <meta charset="UTF-8">
@@ -20,10 +23,8 @@
 
 </head>
 
-<body onload="init()" class="main-color flex w-full">
-  <div id="sidebar">
+<body onload="init()" class="main-color flex w-full" layout:fragment="content">
 
-  </div>
   <div id="main_content" class="flex-1 sm:ml-64 h-screen">
     <div id="content_header" class="flex ">
       <div class="p-2">
@@ -102,24 +103,17 @@
                       </a>
                     </li>
                     <li>
-                      <button id="add-button"
+                      <a id="add-button"
                         class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white "
                         th:data-modal-target="'updateActivityModal'+${activity.name}"
                         th:data-modal-toggle="'updateActivityModal'+${activity.name}">
                         update
-                      </button>
+                      </a>
 
                     </li>
-                    <li>
-                      <a href="#"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                    </li>
+
                   </ul>
-                  <div class="py-2">
-                    <a href="#"
-                      class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">Separated
-                      link</a>
-                  </div>
+
                 </div>
               </td>
               <td>

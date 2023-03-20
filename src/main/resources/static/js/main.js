@@ -1,4 +1,4 @@
-window.onload = loadSidebar();
+/*window.onload = loadSidebar();
 
 function loadSidebar(){
   fetch('../sidebar.html')
@@ -8,7 +8,7 @@ function loadSidebar(){
     document.querySelector('#sidebar').innerHTML = data;
   });
 
-}
+}*/
 
 function performProperGrammer(){
 	const activitiesCount = parseInt(document.querySelector("#activitiesCount").innerText);
