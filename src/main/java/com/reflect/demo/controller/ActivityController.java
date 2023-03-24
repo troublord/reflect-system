@@ -13,9 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.reflect.demo.entity.Activity;
-import com.reflect.demo.entity.User;
 import com.reflect.demo.service.ActivityService;
-import com.reflect.demo.service.UserService;
+
 
 @Controller
 @RequestMapping("/activities")

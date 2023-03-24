@@ -3,9 +3,12 @@ package com.reflect.demo.dao;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Repository;
 
 import com.reflect.demo.entity.Activity;
+import com.reflect.demo.service.IAuthenticationFacade;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -16,6 +19,9 @@ public class ActivityDaoImpl implements ActivityDao {
 
 	 @PersistenceContext
 	 private EntityManager entityManager;
+	 
+	 @Autowired
+	 private IAuthenticationFacade authenticationFacade;
 	
 	@Override
 	public Optional<Activity> findById(Long id) { // return Optional cause it may be null
@@ -24,7 +30,12 @@ public class ActivityDaoImpl implements ActivityDao {
 	}
 	@Override
 	public List<Activity> findAll() {
-		TypedQuery<Activity> query = entityManager.createQuery("SELECT a FROM Activity a ORDER BY a.status , a.createdAt ", Activity.class);
+		Authentication authentication = authenticationFacade.getAuthentication();
+		String user_username = authentication.getName();
+		TypedQuery<Activity> query = 
+				entityManager.createQuery("SELECT a FROM Activity a WHERE a.userUsername = :userUsername  "
+						+ "ORDER BY a.status , a.createdAt ", Activity.class);
+		query.setParameter("userUsername", user_username);
 	    return query.getResultList();
 	}
 
@@ -45,11 +56,17 @@ public class ActivityDaoImpl implements ActivityDao {
 	}
 
 	@Override
-	public List<Activity> findByUserId(Long userId) {
-		 TypedQuery<Activity> query = entityManager.createQuery(
-	                "SELECT a FROM Activity a WHERE a.user.id = :userId", Activity.class);
-	        query.setParameter("userId", userId);
-	        return query.getResultList();
+	public List<Long> findAllActivityIds() {
+		Authentication authentication = authenticationFacade.getAuthentication();
+		String user_username = authentication.getName();
+		TypedQuery<Long> query = 
+				entityManager.createQuery("SELECT a.id FROM Activity a "
+						+ "WHERE a.userUsername = :userUsername", Long.class);
+		query.setParameter("userUsername", user_username);
+	    return query.getResultList();
 	}
+	
 
+	
+	
 }

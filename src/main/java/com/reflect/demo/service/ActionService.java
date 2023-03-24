@@ -1,0 +1,26 @@
+package com.reflect.demo.service;
+
+import java.util.List;
+
+import com.reflect.demo.entity.Action;
+import com.reflect.demo.instance.OverviewAction;
+import com.reflect.demo.instance.PaginationInfo;
+
+
+public interface ActionService {
+	Action createAction(Action action);
+
+    Action getActionById(Long id);
+    
+    Action updateAction(Action action);
+
+    List<Action> getAllActions(int pageNumber,int pageSize);
+    
+    List<OverviewAction> getActionsForOverview(int listSize);
+    
+    List<Action> findByActivityId(Long activityId);
+
+    void deleteActionById(Long id);
+    
+    public PaginationInfo getPaginationInfo();
+}

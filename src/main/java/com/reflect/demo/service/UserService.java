@@ -1,22 +1,17 @@
 package com.reflect.demo.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import com.reflect.demo.entity.User;
 
 public interface UserService {
 	
-	public List<User> findAll();
-	
-	public User findById(int id) throws Exception;
-	
-	public void save(User newUser);
-	
-	public void deleteById(int id);
-	
-	public void update(User user);
-	
-	public void register(User user) throws Exception;
-	
-	public boolean checkIfUserExist(String email);
+	 User createUser(User user);
+
+	 Optional<User> getUserByUsername(String username);
+
+	 List<User> getAllUsers();
+
+	 boolean deleteUserByUsername(String username);
 }

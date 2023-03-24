@@ -19,7 +19,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       addSearchToTable();
     }
   </script>
-  <title> Reflect projects </title>
+  <title> Reflect</title>
 
 </head>
 
@@ -97,18 +97,20 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                   class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
                   <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
                     <li>
-                      <a th:href="@{/activities/{activityId}/delete(activityId=${activity.id})}"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                        Delete
-                      </a>
+                    <form th:action="@{/activities/{activityId}/delete(activityId=${activity.id})}" method="get">
+					  <button type="submit" class="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+					    Delete
+					  </button>
+					</form>
+
                     </li>
                     <li>
-                      <a id="add-button"
-                        class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white "
+                      <button id="add-button"
+                        class="block w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white "
                         th:data-modal-target="'updateActivityModal'+${activity.name}"
                         th:data-modal-toggle="'updateActivityModal'+${activity.name}">
                         update
-                      </a>
+                      </button>
 
                     </li>
 
@@ -138,13 +140,13 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                         </svg>
                         <span class="sr-only">Close modal</span>
                       </button>
-                      <div class="px-6 py-6 lg:px-8 bg-gray-900">
+                      <div class="px-6 py-6 lg:px-8 bg-black">
                         <h3 class="mb-4 text-xl font-medium text-white">Update activity</h3>
                         <form action="#" th:action="@{/activities/update}" th:object="${activity}" method="POST">
                           <input type="hidden" th:id="id" th:name="id" th:value="${activity.id}">
 
                           <div>
-                            <label for="name" class="block mb-2 text-sm font-medium text-white">
+                            <label for="name" class="block mb-2 text-sm font-medium text-gray-300">
                               Name
                             </label>
                             <input type="text" th:value="${activity.name}" th:id="name" th:name="name"
@@ -153,7 +155,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                           </div>
 
                           <div class="">
-                            <label for="description" class="block mb-2 text-sm font-medium text-white">
+                            <label for="description" class="block mb-2 text-sm font-medium text-gray-300">
                               Description
                             </label>
                             <input type="text" th:id="description" th:name="description"
@@ -162,8 +164,8 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                           </div>
                           <div>
                             <label class="relative inline-flex items-center mb-4 mt-4 cursor-pointer">
-                              <input type="checkbox" th:id="status" th:name="status" value="active"
-                                th:checked="${activity.status == 'active'}" class="sr-only peer">
+                              <input type="checkbox" th:id="status" th:name="status" value="Active"
+                                th:checked="${activity.status == 'Active'}" class="sr-only peer">
                               <div
                                 class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                               </div>
@@ -210,11 +212,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
               </svg>
               <span class="sr-only">Close modal</span>
             </button>
-            <div class="px-6 py-6 lg:px-8 bg-gray-900">
+            <div class="px-6 py-6 lg:px-8 bg-black">
               <h3 class="mb-4 text-xl font-medium text-white">New activity</h3>
               <form action="#" th:action="@{/activities/save}" th:object="${newActivity}" method="POST">
                 <div>
-                  <label for="name" class="block mb-2 text-sm font-medium text-white">
+                  <label for="name" class="block mb-2 text-sm font-medium text-gray-300">
                     Name
                   </label>
                   <input type="text" th:field="*{name}"
@@ -223,7 +225,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                 </div>
 
                 <div class="">
-                  <label for="description" class="block mb-2 text-sm font-medium text-white">
+                  <label for="description" class="block mb-2 text-sm font-medium text-gray-300">
                     Description
                   </label>
                   <input type="text" th:field="*{description}" placeholder="describe this activity ..."
@@ -231,7 +233,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
                 </div>
                 <div>
                   <label class="relative inline-flex items-center mb-4 mt-4 cursor-pointer">
-                    <input type="checkbox" th:field="*{status}" value="active" class="sr-only peer">
+                    <input type="checkbox" th:field="*{status}" value="Active" class="sr-only peer">
                     <div
                       class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600">
                     </div>

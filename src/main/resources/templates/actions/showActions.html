@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{../static/sidebar.html}">
+
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../css/main.css">
+	<link rel="stylesheet" href="../css/flowbite.css">
+	<script src="../js/main.js"></script>
+	<script src="../js/flowbite.js"></script>
+	<title>Actions List</title>
+	
+</head>
+
+<body class="main-color flex w-full" layout:fragment="content">
+	<div id="main_content" class="flex-1 sm:ml-64 h-screen">
+		<div id="content_header" class="flex ">
+			<div class="p-2">
+				<p class="dark:text-white font-bold text-sm"><span class="text-gray-500">Actions</span></p>
+
+			</div>
+
+		</div>
+		<table>
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Objective</th>
+					<th>Thoughts</th>
+					<th>Outcome</th>
+					<th>Improvements</th>
+					<th>Satisfaction</th>
+					<th>Activity</th>
+					<th>Created At</th>
+					<th>Updated At</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="action : ${actions}">
+					<td th:text="${action.id}"></td>
+					<td th:text="${action.objective}"></td>
+					<td th:text="${action.thoughts}"></td>
+					<td th:text="${action.outcome}"></td>
+					<td th:text="${action.improvements}"></td>
+					<td th:text="${action.satisfaction}"></td>
+					<td th:text="${action.activity.name}"></td>
+					<td th:text="${action.createdAt}"></td>
+					<td th:text="${action.updatedAt}"></td>
+				</tr>
+			</tbody>
+		</table>
+		<nav class="flex justify-center mt-6">
+			<ul class="inline-flex -space-x-px">
+				<li >
+					<a th:if="${paginationInfo.currentPage > 1}"
+						th:href="@{/actions(page=${paginationInfo.currentPage - 1}, size=${paginationInfo.pageSize})}"
+						class="px-3 py-2 ml-0 leading-tight border rounded-l-lg bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white">
+						Previous
+					</a>
+				</li>
+				<li th:each="pageNumber : ${#numbers.sequence(0, paginationInfo.totalPages - 1)}"
+					>
+					<a th:href="@{/actions(page=${pageNumber + 1}, size=${paginationInfo.pageSize})}"
+					th:classappend="${pageNumber+1 == paginationInfo.currentPage} ? 'px-3 py-2  border  hover:bg-gray-700 hover:text-white border-gray-700 bg-gray-700 text-white':'px-3 py-2 leading-tight border  bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white'"
+						th:text="${pageNumber + 1}" aria-label="Page [[${pageNumber + 1}]]"></a>
+				</li>
+				<li >
+					<a th:if="${paginationInfo.currentPage < paginationInfo.totalPages}"
+						th:href="@{/actions(page=${paginationInfo.currentPage + 1}, size=${paginationInfo.pageSize})}"
+						class = "px-3 py-2 leading-tight  border rounded-r-lg bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white">
+						Next
+					</a>
+				</li>
+			</ul>
+		</nav>
+	</div>
+</body>
+
+</html>

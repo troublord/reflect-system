@@ -15,8 +15,7 @@ public interface ActivityDao {
 
     void delete(Activity activity);
 
-    List<Activity> findByUserId(Long userId);
-    // other custom query methods, if needed
-
 	List<Activity> findAll();
+	
+	List<Long> findAllActivityIds();
 }

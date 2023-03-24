@@ -6,7 +6,10 @@ import java.util.List;
 
 import java.util.Optional;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +22,10 @@ public class ActivityServiceImpl implements ActivityService {
 
 	@Autowired
     private ActivityDao activityDao;
+	
 	@Autowired
-	private UserService userService;
+    private IAuthenticationFacade authenticationFacade;
+
 	
 	@Override
 	@Transactional
@@ -44,16 +49,7 @@ public class ActivityServiceImpl implements ActivityService {
 	@Override
 	@Transactional
 	public Activity saveActivity(Activity activity) {
-		User theUser = null;
-		try {
-			theUser = userService.findById(1);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-    	activity.setUser(theUser);
-		return activityDao.save(activity);
-
+		return activityDao.save(setupUsername(activity));
 	}
 
 	@Override
@@ -63,12 +59,11 @@ public class ActivityServiceImpl implements ActivityService {
 		
         if (activityOpt.isPresent()) {
         	Activity beforeMergeActivity = activityOpt.get();
-        	activity.setUser(beforeMergeActivity.getUser());
         	activity.setCreatedAt(beforeMergeActivity.getCreatedAt());
         } else {
-            // handle the case where no activity with the specified ID exists
+            return null;
         }
-		 return activityDao.update(activity);
+		 return activityDao.update(setupUsername(activity));
 
 	}
 
@@ -88,6 +83,14 @@ public class ActivityServiceImpl implements ActivityService {
 	public String formatLocalDateTime(LocalDateTime dateTime) {
 	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd");
 	    return dateTime.format(formatter);
+	}
+	
+	public Activity setupUsername(Activity activity) {
+		Authentication authentication = authenticationFacade.getAuthentication();
+		Activity newActivity = new Activity();
+        BeanUtils.copyProperties(activity, newActivity);
+        newActivity.setUserUsername(authentication.getName());
+        return newActivity;
 	}
 	
 

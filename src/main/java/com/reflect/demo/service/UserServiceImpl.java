@@ -9,84 +9,83 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.reflect.demo.dao.UserDAOJpaImpl;
+import com.reflect.demo.dao.AuthorityRepository;
+import com.reflect.demo.dao.UserRepository;
+import com.reflect.demo.entity.Authority;
 import com.reflect.demo.entity.User;
 
 @Service
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserService{
+	
+	private final UserRepository userRepository;
+	private final AuthorityRepository authorityRepository;
+	private final PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	private UserDAOJpaImpl userDAOJpaImpl;
-	
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder,AuthorityRepository authorityRepository) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.authorityRepository = authorityRepository;
+    }
 	
 	@Override
 	@Transactional
-	public List<User> findAll() {
-		return userDAOJpaImpl.findAll();
+	public User createUser(User user) {
+		// Validate the user object
+        validateUser(user);
+        
+        // Copy the user object to a new User object
+        User newUser = new User();
+        BeanUtils.copyProperties(user, newUser);
+        
+        // Hash the password using a secure algorithm
+        String encryptedPassword = encryptPassword(newUser.getPassword());
+        newUser.setPassword(encryptedPassword);
+        newUser.setEnabled(true);
+        // Save the user object to the database and add authority
+        userRepository.save(newUser);
+        Authority newAuthority = new Authority(newUser,"GENERAL");
+        authorityRepository.save(newAuthority);
+
+        return newUser;
 	}
 
 	@Override
 	@Transactional
-	public User findById(int id) throws Exception {
-		User tempUser = userDAOJpaImpl.findById(id);
-		if(tempUser == null) {
-			throw new RuntimeException("did not find user by id - "+ id);
-		}
-		return tempUser;
+	public Optional<User> getUserByUsername(String username) {
+		return userRepository.findById(username);
 	}
 
 	@Override
 	@Transactional
-	public void register(User user) throws Exception {
-		//Let's check if user already registered with us
-        if(checkIfUserExist(user.getEmail())){
-            throw new Exception("User already exists for this email");
+	public List<User> getAllUsers() {
+		return userRepository.findAll();
+	}
+
+	@Override
+	@Transactional
+	public boolean deleteUserByUsername(String username) {
+		if (userRepository.existsById(username)) {
+            userRepository.deleteById(username);
+            return true;
         }
-        User userEntity = new User();
-        BeanUtils.copyProperties(user, userEntity);
-        encodePassword(userEntity, user);
-        userDAOJpaImpl.save(userEntity);
+        return false;
 	}
 
-	private void encodePassword(User userEntity, User user){
-		
-		userEntity.setPassword(passwordEncoder.encode(user.getPassword()));
-	}
-	
-	@Override
-	public boolean checkIfUserExist(String email) {
-		User user = userDAOJpaImpl.findByEmail(email);
-	    if(user == null) {
-	    	return false;
-	    }
-	    return true;
-	}
-	
-	@Override
-	@Transactional
-	public void save(User newUser) {
-		userDAOJpaImpl.save(newUser);
-	}
+	private void validateUser(User user) throws IllegalArgumentException {
+        // Check that the username and password are not empty
+        if (user.getUsername().isEmpty() || user.getPassword().isEmpty()) {
+            throw new IllegalArgumentException("Username and password cannot be empty");
+        }
 
-	@Override
-	@Transactional
-	public void deleteById(int id) {
-		// TODO Auto-generated method stub
-		userDAOJpaImpl.deleteById(id);
-	}
-
-	@Override
-	@Transactional
-	public void update(User user) {
-		// TODO Auto-generated method stub
-		userDAOJpaImpl.save(user);
-	}
-
-	
-
+        // Check that the username does not already exist in the database
+        if (userRepository.existsById(user.getUsername())) {
+            throw new IllegalArgumentException("Username already exists");
+        }
+    }
+	private String encryptPassword(String password) {
+        
+        return passwordEncoder.encode(password);
+    }
 	
 }

@@ -1,13 +1,12 @@
-<!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="../css/style.css">
   <link rel="stylesheet" href="../css/main.css">
   <link rel="stylesheet" href="../css/flowbite.css">
-  
-  <script src="../js/flowbite.js"></script>
   <title> Reflect </title>
 </head>
 
@@ -18,40 +17,43 @@
         <img class="pl-[95px]" src="../images/login logo.svg" />
       </li>
       <li>
+        <img style = "padding-left : 192px;" src="../images/login.png" />
+      </li>
+      <li>
         <div class="w-screen max-w-md justify-center">
-          <form action="#" th:action="@{/registration}"
-           th:object="${user}" method="post"
-           class=" rounded px-8 pt-6 pb-8 mb-4">
-	          <div th:if="${error}" class="alert alert-danger" role="alert">
-		      	<span th:text="${error}"></span>
-		      </div>
+          <div th:if="${param.error}">
+              Invalid username and password.
+          </div>
+          <div th:if="${param.logout}">
+              You have been logged out.
+          </div>
+          <form th:action="@{/login}" method="post" class=" rounded px-8 pt-6 pb-8 mb-4">
             <div class="mb-6">
               
               <input
                 class="rounded-l h-12 w-full py-2 px-3 bg-gray-100 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                th:field="*{username}" type="text" placeholder="user's name" th:errorclass="is-invalid">
-                <span th:errors="*{username}"></span>
-                
+                id="username" name = "username" placeholder="username" type="text">
             </div>
             <div class="mb-6">
               
               <input
                 class=" rounded-l h-12 w-full py-2 px-3 bg-gray-100 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                th:field="*{password}" type="password" placeholder="Password" th:errorclass="is-invalid">
-                <span th:errors="*{password}"></span>
+                id="password" name = "password"  type="password" placeholder="Password">
             </div>
-            
-            <button
-              class="hover:bg-gray-700 text-white rounded-lg registration-button font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              type="submit">
-              Sing up
-            </button>
+            <div class = "flex justify-end">
+	            <button
+	              class="bg-gray-400 hover:bg-gray-700 hover:text-white text-black rounded-lg font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+	              type="submit">
+	              Log in
+	            </button>
+            </div>
           </form>
         </div>
       </li>
     </ul>
   </div>
+
+
+
+</body>
 </html>
-
-
-

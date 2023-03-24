@@ -19,7 +19,7 @@ import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "activity")
+@Table(name = "activities")
 public class Activity {
 
     @Id
@@ -34,11 +34,9 @@ public class Activity {
 
     @Column(name = "status")
     private String status;
-
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private User user;
+    
+    @Column(name = "user_username",nullable = false)
+    private String userUsername;
 
     @CreationTimestamp
     @Column(name = "created_at")
@@ -47,16 +45,18 @@ public class Activity {
     @UpdateTimestamp
     @Column(name = "updated_at")
     private LocalDate updatedAt;
+    
+    
 
     public Activity() {}
     
-	public Activity(Long id, String name, String description, String status, User user,
+	public Activity(Long id, String name, String description, String status,String userUsername,
 			LocalDate createdAt, LocalDate updatedAt) {
 		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.status = status;
-		this.user = user;
+		this.userUsername = userUsername;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
 	}
@@ -93,15 +93,14 @@ public class Activity {
 	public void setStatus(String status) {
 		this.status = status;
 	}
-
-
-	public User getUser() {
-		return user;
-	}
-
-	public void setUser(User user) {
-		this.user = user;
-	}
+	
+	public String getUserUsername() {
+        return userUsername;
+    }
+    
+    public void setUserUsername(String userUsername) {
+        this.userUsername = userUsername;
+    }
 
 	public LocalDate getCreatedAt() {
 		return createdAt;
@@ -125,7 +124,7 @@ public class Activity {
 	    this.createdAt = now;
 	    this.updatedAt = now;
 	    if(this.status == null) {
-	    	this.status = "InActive";
+	    	this.status = "Inactive";
 	    } 
 	}
 
@@ -133,16 +132,14 @@ public class Activity {
 	public void preUpdate() {
 	    this.updatedAt = LocalDate.now();
 	    if(this.status == null) {
-	    	this.status = "InActive";
+	    	this.status = "Inactive";
 	    } 
 	}
 
 	@Override
 	public String toString() {
 		return "Activity [id=" + id + ", name=" + name + ", description=" + description + ", status=" + status
-				+ ", user=" + user + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+				+ ", userUsername=" + userUsername + ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
 	}
-    
-	
 }
 

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{../static/sidebar.html}">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/flowbite.css">
+    <script src="../js/main.js"></script>
+    <script src="../js/flowbite.js"></script>
+    <title>Reflect</title>
+</head>
+
+<body class="main-color flex w-full" layout:fragment="content">
+    <div id="main_content" class="flex-1 sm:ml-64 h-screen">
+
+        <div id="content_header" class="flex ">
+            <div class="p-2">
+                <p class="font-bold text-sm"><span class="text-gray-500">Overview</span></p>
+            </div>
+        </div>
+
+        <div id="action_content" class="px-16">
+            <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+                <table class="w-full text-sm text-left  text-gray-400 pl-16">
+                    <caption class="p-5 text-lg font-semibold text-left text-white ">
+                        Our products
+                        <p class="mt-1 text-sm font-normal text-gray-400">Browse a list of Flowbite
+                            products designed to help you work and play, stay organized, get answers, keep in touch,
+                            grow your business, and more.</p>
+                    </caption>
+                    <thead class="text-xs text-gray-400 uppercase bg-gray-700 ">
+                        <tr>
+                            <th scope="col" class="px-6 py-3">
+                                objective
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                satisfaction
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                activity
+                            </th>
+                            <th scope="col" class="px-6 py-3">
+                                updated
+                            </th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class=" border-b  border-gray-700" th:each="OverviewAction : ${OverviewActions}">
+                            <th scope="row" th:text="${OverviewAction.objective}"
+                                class="px-6 py-4 font-medium whitespace-nowrap text-white" />
+                            <td class="px-6 py-4" th:text="${OverviewAction.satisfaction}" />
+                            <td class="px-6 py-4" th:text="${OverviewAction.activityName}" />
+                            <td class="px-6 py-4" th:text="${OverviewAction.updatedAt}" />
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
