@@ -67,30 +67,6 @@ public class ActionServiceImpl implements ActionService {
 	}
 	
 	@Override
-	@Transactional			
-	public List<OverviewAction> getActionsForOverview(int listSize) {
-		List<Object[]> actions = actionDao.getActionsForOverview(listSize);
-		List<OverviewAction> overviewActions = new ArrayList<>();
-		for(Object[] actionData : actions) {
-			Long id = (Long)actionData[0];
-			String objective = (String)actionData[1];
-			String activity = (String)actionData[2];
-			Integer satisfaction = (Integer)actionData[3];
-			Timestamp updatedAt = (Timestamp)actionData[4];
-			OverviewAction cuttedAction = new OverviewAction(id,objective,satisfaction,activity,updatedAt);
-			overviewActions.add(cuttedAction);
-		}	
-		
-		return overviewActions;
-	}
-
-	@Override
-	@Transactional
-	public List<Action> findByActivityId(Long activityId) {
-		return actionDao.findByActivityId(activityId);
-	}
-
-	@Override
 	@Transactional
 	public void deleteActionById(Long id) {
 		Optional<Action> actionOpt = actionDao.findById(id);

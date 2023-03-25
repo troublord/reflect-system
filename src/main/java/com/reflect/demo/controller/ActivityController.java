@@ -16,8 +16,8 @@ import com.reflect.demo.entity.Activity;
 import com.reflect.demo.service.ActivityService;
 
 
-@Controller
-@RequestMapping("/activities")
+//@Controller
+//@RequestMapping("/activities")
 public class ActivityController {
 	
 	@Autowired

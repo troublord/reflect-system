@@ -13,11 +13,9 @@ public interface ActionDao {
 
     List<Action> findAll();
     
-    List<Object[]> getActionsForOverview(int listSize);
 
     Action update(Action action);
 
     void delete(Action action);
     
-    List<Action> findByActivityId(Long activityId);
 }

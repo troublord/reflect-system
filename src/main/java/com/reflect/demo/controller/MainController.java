@@ -53,8 +53,8 @@ public class MainController {
 	
 	@GetMapping("/overview")
     public String showOverview(Model model) {
-		List<OverviewAction> actionList = actionService.getActionsForOverview(15);
-		model.addAttribute("OverviewActions",actionList);
+//		List<OverviewAction> actionList = actionService.getActionsForOverview(15);
+//		model.addAttribute("OverviewActions",actionList);
         return "overview";
     }
 	

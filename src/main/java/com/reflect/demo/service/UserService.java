@@ -14,4 +14,10 @@ public interface UserService {
 	 List<User> getAllUsers();
 
 	 boolean deleteUserByUsername(String username);
+	 
+	 String getCurrentUserName();
+	 
+	 Long getCurrentUserId();
+	 
+	 User getCurrentUser();
 }

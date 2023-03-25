@@ -43,19 +43,6 @@ public class ActionDaoImpl implements ActionDao{
 		query.setParameter("activityIds", activityIds);
 	    return query.getResultList();
 	}
-	
-	@Override
-	public List<Object[]> getActionsForOverview(int listSize) {
-		// find current user's activitiesId 
-		List<Long> activityIds = activityDao.findAllActivityIds();
-		//use activitiesId to query corresponding actions	
-		TypedQuery<Object[]> query = entityManager.createQuery("SELECT a.id,a.objective, a.activity.name, a.satisfaction, a.updatedAt"
-				+ " FROM Action a"
-				+ " WHERE a.activity.id IN :activityIds", Object[].class);
-		query.setParameter("activityIds", activityIds);
-		query.setMaxResults(listSize);
-	    return query.getResultList();
-	}
 
 	@Override
 	public Action update(Action action) {
@@ -67,11 +54,5 @@ public class ActionDaoImpl implements ActionDao{
 		entityManager.remove(action);
 	}
 
-	@Override
-	public List<Action> findByActivityId(Long activityId) {
-		TypedQuery<Action> query = entityManager.createQuery("SELECT a FROM Action a WHERE a.activity.id = :activityId", Action.class);
-        query.setParameter("activityId", activityId);
-        return query.getResultList();
-	}
 
 }

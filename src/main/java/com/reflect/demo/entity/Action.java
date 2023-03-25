@@ -1,7 +1,9 @@
 package com.reflect.demo.entity;
 
-import java.sql.Date;
-import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -9,7 +11,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -36,33 +41,46 @@ public class Action {
     @Column(name = "satisfaction")
     private Integer satisfaction;
 
-    @ManyToOne
-    @JoinColumn(name = "activity_id", referencedColumnName = "id")
-    private Activity activity;
 
     @Column(name = "created_at")
-    private Date createdAt;
+    private LocalDate createdAt;
 
     @Column(name = "updated_at")
-    private Timestamp  updatedAt;
+    private LocalDateTime  updatedAt;
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
+
+    @ManyToMany
+    @JoinTable(name = "map_action_tag", 
+               joinColumns = @JoinColumn(name = "action_id"), 
+               inverseJoinColumns = @JoinColumn(name = "tag_id"))
+    private Set<Tag> tags = new HashSet<>();
+    
+    @ManyToMany(mappedBy = "actions")
+    private Set<Goal> goals = new HashSet<>();
 
     public Action() {
     	
     }
-
+    
+    
+    
 	public Action(Long id, String objective, String thoughts, String outcome, String improvements, Integer satisfaction,
-			Activity activity, Date createdAt, Timestamp updatedAt) {
+			LocalDate createdAt, LocalDateTime updatedAt, User user, Set<Tag> tags, Set<Goal> goals) {
 		this.id = id;
 		this.objective = objective;
 		this.thoughts = thoughts;
 		this.outcome = outcome;
 		this.improvements = improvements;
 		this.satisfaction = satisfaction;
-		this.activity = activity;
 		this.createdAt = createdAt;
 		this.updatedAt = updatedAt;
+		this.user = user;
+		this.tags = tags;
+		this.goals = goals;
 	}
-
 
 
 
@@ -106,30 +124,6 @@ public class Action {
 		this.improvements = improvements;
 	}
 
-	public Activity getActivity() {
-		return activity;
-	}
-
-	public void setActivity(Activity activity) {
-		this.activity = activity;
-	}
-
-	public Date getCreatedAt() {
-		return createdAt;
-	}
-
-	public void setCreatedAt(Date createdAt) {
-		this.createdAt = createdAt;
-	}
-
-	public Timestamp getUpdatedAt() {
-		return updatedAt;
-	}
-
-	public void setUpdatedAt(Timestamp updatedAt) {
-		this.updatedAt = updatedAt;
-	}
-
 	public Integer getSatisfaction() {
 		return satisfaction;
 	}
@@ -138,12 +132,48 @@ public class Action {
 		this.satisfaction = satisfaction;
 	}
 
-	@Override
-	public String toString() {
-		return "Action [id=" + id + ", objective=" + objective + ", thoughts=" + thoughts + ", outcome=" + outcome
-				+ ", improvements=" + improvements + ", satisfaction=" + satisfaction + ", activity=" + activity
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + "]";
+	public LocalDate getCreatedAt() {
+		return createdAt;
 	}
 
+	public void setCreatedAt(LocalDate createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+
+	public Set<Goal> getGoals() {
+		return goals;
+	}
+
+	public void setGoals(Set<Goal> goals) {
+		this.goals = goals;
+	}
+    
+    
+    
+    
     
 }
