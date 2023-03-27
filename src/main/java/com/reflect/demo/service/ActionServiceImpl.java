@@ -63,7 +63,24 @@ public class ActionServiceImpl implements ActionService {
 	            .skip((long) (pageNumber - 1) * pageSize)
 	            .limit(pageSize)
 	            .collect(Collectors.toList());
-		return paginatedActions;
+		return trimActionThoughts(paginatedActions);
+	}
+	
+	@Override
+	@Transactional   //deprecated function
+	public List<Action> getAllActionsForList(int pageNumber,int pageSize){
+		List<Object[]> queryResult = actionDao.findAllForList();
+		List<Action> actionList = new ArrayList<Action>();
+		for(Object[] datas: queryResult) {
+			Action action = new Action();
+			action.setId((Long)datas[0]);
+			action.setObjective((String)datas[1]);
+			action.setSatisfaction((int)datas[2]);
+			action.setOutcome((String)datas[3]);
+			action.setThoughts((String)datas[4]);
+			action.setUpdatedAt(null);
+		}
+		return actionList;
 	}
 	
 	@Override
@@ -80,6 +97,22 @@ public class ActionServiceImpl implements ActionService {
 		paginationInfo.setPageSize(pageSize);
 		paginationInfo.setTotalPages((int) Math.ceil((double) listSize / pageSize));
 		paginationInfo.setTotalItems(listSize);
+	}
+	
+	private List<Action> trimActionThoughts(List<Action> actions){
+		for (Action action : actions) {
+	        String thoughts = action.getThoughts();
+	        if (thoughts != null) {
+	            if (thoughts.length() > 50) {
+	                thoughts = thoughts.substring(0, 50) + "...";
+	            }
+	            if (thoughts.length() > 30) {
+	                thoughts = thoughts.substring(0, 30) + "\n" + thoughts.substring(30);
+	            }
+	            action.setThoughts(thoughts);
+	        }
+		}
+		return actions;
 	}
 	
 	@Override

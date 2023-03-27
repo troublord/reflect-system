@@ -80,8 +80,22 @@
 	float: right;
 }
 
+#takeActionButton{
+	background-color: rgb(101 163 13);
+}
 
+#top_projects_count{
+	margin-top : 40px;
+}
 
+#body_top_left{
+	margin-left : 16px;
+}
+
+#action_content{
+	margin-left : 35px;
+	margin-top : 60px;
+}
 
 
 

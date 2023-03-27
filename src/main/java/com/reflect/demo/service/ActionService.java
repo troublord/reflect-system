@@ -19,4 +19,6 @@ public interface ActionService {
     void deleteActionById(Long id);
     
     public PaginationInfo getPaginationInfo();
+    
+    List<Action> getAllActionsForList(int pageNumber,int intpageSize);
 }

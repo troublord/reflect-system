@@ -13,6 +13,7 @@ public interface ActionDao {
 
     List<Action> findAll();
     
+    List<Object[]> findAllForList();
 
     Action update(Action action);
 

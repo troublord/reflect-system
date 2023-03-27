@@ -10,7 +10,7 @@
 	<script src="../js/main.js"></script>
 	<script src="../js/flowbite.js"></script>
 	<title>Actions List</title>
-	
+
 </head>
 
 <body class="main-color flex w-full" layout:fragment="content">
@@ -22,53 +22,118 @@
 			</div>
 
 		</div>
-		<table>
-			<thead>
-				<tr>
-					<th>Id</th>
-					<th>Objective</th>
-					<th>Thoughts</th>
-					<th>Outcome</th>
-					<th>Improvements</th>
-					<th>Satisfaction</th>
-					<th>Activity</th>
-					<th>Created At</th>
-					<th>Updated At</th>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each="action : ${actions}">
-					<td th:text="${action.id}"></td>
-					<td th:text="${action.objective}"></td>
-					<td th:text="${action.thoughts}"></td>
-					<td th:text="${action.outcome}"></td>
-					<td th:text="${action.improvements}"></td>
-					<td th:text="${action.satisfaction}"></td>
-					<td th:text="${action.activity.name}"></td>
-					<td th:text="${action.createdAt}"></td>
-					<td th:text="${action.updatedAt}"></td>
-				</tr>
-			</tbody>
-		</table>
+
+		<div id="body_top" class="">
+			<div id="top_projects_count" class="dark:text-white font-bold  text-2xl flex justify-between ">
+				<div id="body_top_left">
+					<a href="/actions/newAction" id="takeActionButton"
+						class="flex items-center pl-2 p-2 text-base font-normal  rounded-lg dark:text-white  dark:hover:bg-gray-700">
+						<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+							stroke="currentColor" class="w-6 h-6">
+							<path stroke-linecap="round" stroke-linejoin="round"
+								d="M12 10.5v6m3-3H9m4.06-7.19l-2.12-2.12a1.5 1.5 0 00-1.061-.44H4.5A2.25 2.25 0 002.25 6v12a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9a2.25 2.25 0 00-2.25-2.25h-5.379a1.5 1.5 0 01-1.06-.44z" />
+						</svg>
+
+						<span class="flex-1 ml-3 whitespace-nowrap">Take Action!</span>
+					</a>
+				</div>
+				<div id="body_top_searchBar" class="relative">
+					<!-- no presentation -->
+				</div>
+				<div id="body_top_right" class="pr-10 flex justify-start">
+					<div class="">
+						<!-- no presentation -->
+					</div>
+				</div>
+			</div>
+		</div>
+
+
+		<div id="body_table" class="border_top">
+
+			<table id="content_table" class="table table-sortable w-full text-lg pt-4">
+				<thead class="text-gray-300">
+					<tr class="bg-green-900">
+						<th class="text-align-left px-6 py-3">Objective</th>
+						<th class="text-align-left px-6 py-3">Satisfaction</th>
+						<th class="text-align-left px-6 py-3">Outcome</th>
+						<th class="text-align-left px-6 py-3">Thoughts</th>
+						<th class="text-align-left px-6 py-3">Updated</th>
+						<th class="text-align-left px-6 py-3">Tags</th>
+					</tr>
+				</thead>
+				<tbody id="content_table_body" class="text-white">
+					<tr class="hover:bg-gray-700" th:each="action : ${actions}">
+						<div data-popover th:id="'tagsInfoPopover'+${actionStat.index}" role="tooltip"
+							class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-36 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+							<div class="p-3 space-y-2">
+								<ul th:if="not ${action.tags.isEmpty()}">
+									<li th:each="tag : ${action.tags}">
+										<span th:text="${tag.name}">
+										</span>
+									</li>
+								</ul>
+								<ul th:if="${action.tags.isEmpty()}">
+									No tags found.
+								</ul>
+							</div>
+							<div data-popper-arrow></div>
+						</div>
+						<td class="px-6 py-4" th:text="${action.objective}" />
+
+						<td class="px-6 py-4 fb-rating" data-rating="${action.satisfaction}">
+							<div class="flex items-center">
+								<span th:each="starNumber: ${#numbers.sequence(1, 5)}"
+									th:classappend="${starNumber &lt;= action.satisfaction} ? 'text-yellow-400'">
+									<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 fill-current"
+										viewBox="0 0 20 20">
+										<path
+											d="M10 0c-2.213 0-4.272.89-5.758 2.342A8.125 8.125 0 000 10c0 2.21.885 4.267 2.342 5.755A8.121 8.121 0 0010 20a8.121 8.121 0 007.658-4.245A8.12 8.12 0 0020 10c0-2.214-.886-4.271-2.342-5.758A8.122 8.122 0 0010 0zm0 11.714l-3.543 2.086 1.026-3.789-2.92-2.423 3.846-.33L10 3.873l1.59 3.304 3.846.33-2.92 2.423 1.026 3.79L10 11.714z" />
+									</svg>
+								</span>
+							</div>
+						</td>
+						<td class="px-6 py-4"
+							th:text="${#strings.length(action.outcome) > 30 ? #strings.substring(action.outcome,0,50) + '. . .' : action.outcome}" />
+						<td class="px-6 py-4" th:utext="${action.thoughts}" />
+						<td class="px-6 py-4" th:text="${#strings.substring(action.updatedAt, 0, 10)}" />
+						<!-- Add update button/link -->
+						<td class="px-6 py-4">
+							<p class="flex items-center text-sm text-gray-500 dark:text-gray-400">
+								<button th:data-popover-target="'tagsInfoPopover'+${actionStat.index}"
+									data-popover-placement="left" type="button">
+									<svg class="w-4 h-4 ml-2 text-gray-400 hover:text-gray-500" aria-hidden="true"
+										fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd"
+											d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+											clip-rule="evenodd">
+										</path>
+									</svg>
+								</button>
+							</p>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 		<nav class="flex justify-center mt-6">
 			<ul class="inline-flex -space-x-px">
-				<li >
+				<li>
 					<a th:if="${paginationInfo.currentPage > 1}"
 						th:href="@{/actions(page=${paginationInfo.currentPage - 1}, size=${paginationInfo.pageSize})}"
 						class="px-3 py-2 ml-0 leading-tight border rounded-l-lg bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white">
 						Previous
 					</a>
 				</li>
-				<li th:each="pageNumber : ${#numbers.sequence(0, paginationInfo.totalPages - 1)}"
-					>
+				<li th:each="pageNumber : ${#numbers.sequence(0, paginationInfo.totalPages - 1)}">
 					<a th:href="@{/actions(page=${pageNumber + 1}, size=${paginationInfo.pageSize})}"
-					th:classappend="${pageNumber+1 == paginationInfo.currentPage} ? 'px-3 py-2  border  hover:bg-gray-700 hover:text-white border-gray-700 bg-gray-700 text-white':'px-3 py-2 leading-tight border  bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white'"
+						th:classappend="${pageNumber+1 == paginationInfo.currentPage} ? 'px-3 py-2  border  hover:bg-gray-700 hover:text-white border-gray-700 bg-gray-700 text-white':'px-3 py-2 leading-tight border  bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white'"
 						th:text="${pageNumber + 1}" aria-label="Page [[${pageNumber + 1}]]"></a>
 				</li>
-				<li >
+				<li>
 					<a th:if="${paginationInfo.currentPage < paginationInfo.totalPages}"
 						th:href="@{/actions(page=${paginationInfo.currentPage + 1}, size=${paginationInfo.pageSize})}"
-						class = "px-3 py-2 leading-tight  border rounded-r-lg bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white">
+						class="px-3 py-2 leading-tight  border rounded-r-lg bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700 hover:text-white">
 						Next
 					</a>
 				</li>
