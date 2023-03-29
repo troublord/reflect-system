@@ -25,6 +25,9 @@ public class Action {
     @Column(name = "id")
     private Long id;
 
+	@Column(name = "title",length = 100)
+	private String title;
+	
     @Column(name = "objective", length = 100)
     private String objective;
 
@@ -67,9 +70,10 @@ public class Action {
     
     
     
-	public Action(Long id, String objective, String thoughts, String outcome, String improvements, Integer satisfaction,
+	public Action(Long id,String title, String objective, String thoughts, String outcome, String improvements, Integer satisfaction,
 			LocalDate createdAt, LocalDateTime updatedAt, User user, Set<Tag> tags, Set<Goal> goals) {
 		this.id = id;
+		this.title = title;
 		this.objective = objective;
 		this.thoughts = thoughts;
 		this.outcome = outcome;
@@ -91,6 +95,16 @@ public class Action {
 	public void setId(Long id) {
 		this.id = id;
 	}
+	
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
 
 	public String getObjective() {
 		return objective;
@@ -170,6 +184,16 @@ public class Action {
 
 	public void setGoals(Set<Goal> goals) {
 		this.goals = goals;
+	}
+
+
+
+	@Override
+	public String toString() {
+		return "Action [id=" + id + ", title=" + title + ", objective=" + objective + ", thoughts=" + thoughts
+				+ ", outcome=" + outcome + ", improvements=" + improvements + ", satisfaction=" + satisfaction
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt + ", user=" + user + ", tags=" + tags
+				+ ", goals=" + goals + "]";
 	}
     
     

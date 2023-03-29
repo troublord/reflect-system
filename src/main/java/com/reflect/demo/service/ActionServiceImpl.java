@@ -63,7 +63,7 @@ public class ActionServiceImpl implements ActionService {
 	            .skip((long) (pageNumber - 1) * pageSize)
 	            .limit(pageSize)
 	            .collect(Collectors.toList());
-		return trimActionThoughts(paginatedActions);
+		return paginatedActions;
 	}
 	
 	@Override
@@ -99,21 +99,6 @@ public class ActionServiceImpl implements ActionService {
 		paginationInfo.setTotalItems(listSize);
 	}
 	
-	private List<Action> trimActionThoughts(List<Action> actions){
-		for (Action action : actions) {
-	        String thoughts = action.getThoughts();
-	        if (thoughts != null) {
-	            if (thoughts.length() > 50) {
-	                thoughts = thoughts.substring(0, 50) + "...";
-	            }
-	            if (thoughts.length() > 30) {
-	                thoughts = thoughts.substring(0, 30) + "\n" + thoughts.substring(30);
-	            }
-	            action.setThoughts(thoughts);
-	        }
-		}
-		return actions;
-	}
 	
 	@Override
 	public PaginationInfo getPaginationInfo() {

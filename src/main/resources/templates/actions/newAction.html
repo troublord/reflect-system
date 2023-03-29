@@ -1,35 +1,95 @@
 <!DOCTYPE HTML>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" 
-xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
- layout:decorate="~{../static/sidebar.html}"
->
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{../static/sidebar.html}">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="../css/style.css">
-  <link rel="stylesheet" href="../css/main.css">
-  <link rel="stylesheet" href="../css/flowbite.css">
-  <script src="../js/main.js"></script>
-  <script src="../js/flowbite.js"></script>
-  <script type="text/javascript">
-    
-  </script>
-  <title> Reflect</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="../css/style.css">
+	<link rel="stylesheet" href="../css/main.css">
+	<link rel="stylesheet" href="../css/flowbite.css">
+	<script src="../js/main.js"></script>
+	<script src="../js/flowbite.js"></script>
+	<link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
+	<script src="https://cdn.metroui.org.ua/v4/js/metro.min.js"></script>
+
+	<script type="text/javascript">
+		function adjustTextareaRows(textarea) {
+			var rows = textarea.getAttribute('rows');
+			var lineHeight = parseInt(window.getComputedStyle(textarea)['line-height']);
+			var currentHeight = textarea.scrollHeight;
+
+			if (currentHeight > rows * lineHeight) {
+				textarea.style.height = currentHeight + 'px';
+				textarea.setAttribute('rows', Math.ceil(currentHeight / lineHeight));
+			}
+		}
+
+
+	</script>
+
+	<title> Reflect</title>
 
 </head>
 
 <body onload="" class="main-color flex w-full" layout:fragment="content">
+	<form id="main_content" class="grid flex-1 actionForm sm:ml-52 h-screen" th:action="@{/actions/save}"
+		th:object="${action}" method="POST">
+		<div id="action_header">
 
-  <div id="main_content" class="flex-1 sm:ml-64 h-screen">
-     <div id="content_header" class="flex ">
-			
 		</div>
-    <div id = "action_content" class = "mt-10 ml-6">
-     
-    </div>
+		<div id="action_content" class="text-3xl ml-6 ">
+			<input type="hidden" th:field="${action.id}" />
+			<div>
+				<textarea th:field="*{title}" maxlength="100" id="message" rows="1" cols="50" class="block p-3 w-full text-4xl text-white noborder 
+	    		rounded-lg main-color " placeholder="Title" oninput="adjustTextareaRows(this)"></textarea>
+			</div>
+			<div>
+				<input type="text" th:field="*{objective}" id="large-input" class="block mt-2 w-full mr-6 p-4 noborder rounded-lg text-xl main-color sm:text-md
+	    		 focus:ring-blue-500 focus:border-blue-500  text-white" placeholder="Objectives of this action" maxlength=100>
+			</div>
+			<div>
+				<input type="text" th:field="*{outcome}" id="large-input" class="block mt-1 w-full p-4 mr-6 noborder rounded-lg text-xl main-color sm:text-md
+	    		 focus:ring-blue-500 focus:border-blue-500  text-white" placeholder="Does this action have any outcome?"
+					maxlength=100>
+			</div>
+			<div>
+				<textarea rows="12" th:field="*{thoughts}" class="block p-3 w-full text-xl text-white noborder 
+	    		rounded-lg main-color " placeholder="Thoughts" oninput="adjustTextareaRows(this)"></textarea>
+			</div>
+			<div>
+				<textarea rows="3" th:field="*{improvements}" class="block p-3 w-full text-xl text-white noborder 
+    			rounded-lg main-color " placeholder="improvements" oninput="adjustTextareaRows(this)"></textarea>
+			</div>
+			<div class="rate">
+				<p>rate this action</p>
+				<input type="radio" id="star5" name="rate" value="5" />
+				<label for="star5" title="text">5 stars</label>
+				<input type="radio" id="star4" name="rate" value="4" />
+				<label for="star4" title="text">4 stars</label>
+				<input type="radio" id="star3" name="rate" value="3" />
+				<label for="star3" title="text">3 stars</label>
+				<input type="radio" id="star2" name="rate" value="2" />
+				<label for="star2" title="text">2 stars</label>
+				<input type="radio" id="star1" name="rate" value="1" />
+				<label for="star1" title="text">1 star</label>
+			</div>
+		</div>
+		<div id="action_footer" class="flex justify-between mt-auto">
+			<div>01</div>
+			<div>02</div>
+			<div>
 
-  </div>
+				<button type="submit" class="text-white hover:text-green-700 bg-green-900 border border-green-700
+		    	 hover:bg-gray-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-extrabold rounded-lg
+		    	  text-4xl px-5 py-2.5 text-center mr-2 mb-2 ">
+					Save
+				</button>
+
+			</div>
+		</div>
+	</form>
+
 </body>
 
 </html>

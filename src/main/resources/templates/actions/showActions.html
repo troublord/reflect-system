@@ -14,7 +14,7 @@
 </head>
 
 <body class="main-color flex w-full" layout:fragment="content">
-	<div id="main_content" class="flex-1 sm:ml-64 h-screen">
+	<div id="main_content" class="flex-1 sm:ml-52 mr-8 h-screen">
 		<div id="content_header" class="flex ">
 			<div class="p-2">
 				<p class="dark:text-white font-bold text-sm"><span class="text-gray-500">Actions</span></p>
@@ -54,7 +54,7 @@
 			<table id="content_table" class="table table-sortable w-full text-lg pt-4">
 				<thead class="text-gray-300">
 					<tr class="bg-green-900">
-						<th class="text-align-left px-6 py-3">Objective</th>
+						<th class="text-align-left px-6 py-3">Title</th>
 						<th class="text-align-left px-6 py-3">Satisfaction</th>
 						<th class="text-align-left px-6 py-3">Outcome</th>
 						<th class="text-align-left px-6 py-3">Thoughts</th>
@@ -79,7 +79,7 @@
 							</div>
 							<div data-popper-arrow></div>
 						</div>
-						<td class="px-6 py-4" th:text="${action.objective}" />
+						<td class="px-6 py-4" th:text="${action.title}" />
 
 						<td class="px-6 py-4 fb-rating" data-rating="${action.satisfaction}">
 							<div class="flex items-center">
@@ -94,8 +94,8 @@
 							</div>
 						</td>
 						<td class="px-6 py-4"
-							th:text="${#strings.length(action.outcome) > 30 ? #strings.substring(action.outcome,0,50) + '. . .' : action.outcome}" />
-						<td class="px-6 py-4" th:utext="${action.thoughts}" />
+							th:text="${#strings.length(action.outcome) > 50 ? #strings.substring(action.outcome,0,50) + ' ...' : action.outcome}" />
+						<td class="px-6 py-4" th:text="${#strings.length(action.thoughts) > 100 ? #strings.substring(action.thoughts,0,100) + ' ...'  : action.thoughts}" />
 						<td class="px-6 py-4" th:text="${#strings.substring(action.updatedAt, 0, 10)}" />
 						<!-- Add update button/link -->
 						<td class="px-6 py-4">
